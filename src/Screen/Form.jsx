@@ -6,7 +6,7 @@ const Login = () => {
 
 
     const [data, setData] = useState({
-        name: "",
+        company: "",
         owner: "",
         email: "",
         address: "",
@@ -20,7 +20,7 @@ const Login = () => {
 
 
     const [errors, setErrors] = useState({
-        name: false,
+        company: false,
         owner: false,
         email: false,
         address: false,
@@ -76,8 +76,8 @@ const Login = () => {
                             </label>
                             <input
                                 type="text"
-                                name="name"
-                                value={data.name}
+                                name="company"
+                                value={data.company}
                                 onChange={(e) => handleChange(e)}
                                 placeholder="Enter Company name "
                                 className={`pl-4 py-[9px] px-0 w-full text-sm text-gray-900 bg-gray-50 rounded-[9px] border-[0.7px]
