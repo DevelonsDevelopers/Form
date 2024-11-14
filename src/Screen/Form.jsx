@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
+import axios from "axios";
 
 const Login = () => {
 
@@ -11,10 +12,10 @@ const Login = () => {
         address: "",
         designation: "",
         date: "",
-        rep_name: "",
-        rep_email: "",
-        rep_designation: "",
-        rep_address: ""
+        representative: "",
+        representative_email: "",
+        representative_designation: "",
+        representative_address: ""
     });
 
 
@@ -25,10 +26,10 @@ const Login = () => {
         address: false,
         designation: false,
         date: false,
-        rep_name: false,
-        rep_email: false,
-        rep_designation: false,
-        rep_address: false
+        representative: false,
+        representative_email: false,
+        representative_designation: false,
+        representative_address: false
     })
 
     const handleChange = (e) => {
@@ -48,7 +49,14 @@ const Login = () => {
         });
         if (hasError) {
             toast.error("Please fill all the required fields");
+            return true
         }
+
+        axios.post(`https://technomentor.net/pdf-api/create`, data, { responseType: 'blob' }).then((res) => {
+            const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+            const fileURL = URL.createObjectURL(pdfBlob);
+            window.open(fileURL);
+        })
     }
 
     return (
@@ -203,8 +211,8 @@ const Login = () => {
                             </label>
                             <input
                                 type="text"
-                                name="rep_name"
-                                value={data.rep_name}
+                                name="representative"
+                                value={data.representative}
                                 onChange={(e) => handleChange(e)}
                                 placeholder="Enter Representative name "
                                 className={`pl-4 py-[9px] px-0 w-full text-sm text-gray-900 bg-gray-50 rounded-[9px] border-[0.7px]
@@ -224,8 +232,8 @@ const Login = () => {
                             </label>
                             <input
                                 type="text"
-                                name="rep_email"
-                                value={data.rep_email}
+                                name="representative_email"
+                                value={data.representative_email}
                                 onChange={(e) => handleChange(e)}
                                 placeholder=" Enter Representative email"
                                 className={`pl-4 py-[9px] px-0 w-full text-sm text-gray-900 bg-gray-50 rounded-[9px] border-[0.7px] 
@@ -247,8 +255,8 @@ const Login = () => {
                             </label>
                             <input
                                 type="text"
-                                name="rep_designation"
-                                value={data.rep_designation}
+                                name="representative_designation"
+                                value={data.representative_designation}
                                 onChange={(e) => handleChange(e)}
                                 placeholder="Enter Representative Designation "
                                 className={`pl-4 py-[9px] px-0 w-full text-sm text-gray-900 bg-gray-50 rounded-[9px] border-[0.7px]
@@ -267,8 +275,8 @@ const Login = () => {
                             </label>
                             <input
                                 type="text"
-                                name="rep_address"
-                                value={data.rep_address}
+                                name="representative_address"
+                                value={data.representative_address}
                                 onChange={(e) => handleChange(e)}
                                 placeholder="Enter Representative Address "
                                 className={`pl-4 py-[9px] px-0 w-full text-sm text-gray-900 bg-gray-50 rounded-[9px] border-[0.7px]
@@ -282,7 +290,7 @@ const Login = () => {
                     </div>
 
                 </div>
-        
+
 
                 <div className="flex justify-center py-5">
                     <button
@@ -297,4 +305,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Login
